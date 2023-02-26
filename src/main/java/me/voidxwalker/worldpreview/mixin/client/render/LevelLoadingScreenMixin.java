@@ -20,6 +20,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.StructureFeature;
 import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -72,6 +76,15 @@ public abstract class LevelLoadingScreenMixin extends Screen {
                 WorldPreview.showMenu=true;
                 this.worldpreview_showMenu=true;
                 this.worldpreview_initWidgets();
+            }
+            if (((WorldRendererMixin)WorldPreview.worldRenderer).getWorld() != null) {
+                BlockPos spawnPos = WorldPreview.player.getBlockPos();
+                BlockPos structure = WorldPreview.world.getServer().getWorld(DimensionType.OVERWORLD).locateStructure("BURIED_TREASURE", spawnPos, 5, false);
+                if (structure == null) {
+                    WorldPreview.inPreview = true;
+                    WorldPreview.kill = -1;
+                    return;
+                }
             }
             if (((WorldRendererMixin)WorldPreview.worldRenderer).getWorld()!=null) {
                 KeyBinding.unpressAll();
@@ -163,9 +176,9 @@ public abstract class LevelLoadingScreenMixin extends Screen {
         this.addButton(new ButtonWidget(this.width / 2 - 102, this.height / 4 + 96 - 16, 98, 20, new TranslatableText("menu.options").getString(), (ignored) -> {}));
         this.addButton(new ButtonWidget(this.width / 2 + 4, this.height / 4 + 96 - 16, 98, 20, new TranslatableText("menu.shareToLan").getString(), (ignored) -> {}));
         this.addButton(new ButtonWidget(this.width / 2 - 102, this.height / 4 + 120 - 16, 204, 20, new TranslatableText("menu.returnToMenu").getString(), (buttonWidgetX) -> {
-             minecraft.getSoundManager().stopAll();
-                WorldPreview.kill = -1;
-                buttonWidgetX.active = false;
+            minecraft.getSoundManager().stopAll();
+            WorldPreview.kill = -1;
+            buttonWidgetX.active = false;
         }));
     }
 

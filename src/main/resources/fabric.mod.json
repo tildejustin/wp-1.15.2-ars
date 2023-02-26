@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "worldpreview",
   "version": "${version}",
-  "name": "WorldPreview",
+  "name": "WorldPreview bt autoresetter",
   "description": "Makes you reset block game fast",
   "authors": [
     "Void_X_Walker"
