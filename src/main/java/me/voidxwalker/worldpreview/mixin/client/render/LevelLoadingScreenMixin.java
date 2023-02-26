@@ -79,15 +79,6 @@ public abstract class LevelLoadingScreenMixin extends Screen {
                 this.worldpreview_showMenu=true;
                 this.worldpreview_initWidgets();
             }
-            if (((WorldRendererMixin)WorldPreview.worldRenderer).getWorld() != null) {
-                BlockPos spawnPos = WorldPreview.player.getBlockPos();
-                BlockPos structure = WorldPreview.world.getServer().getWorld(DimensionType.OVERWORLD).locateStructure("BURIED_TREASURE", spawnPos, 5, false);
-                if (structure == null) {
-                    WorldPreview.inPreview = true;
-                    WorldPreview.kill = -1;
-                    return;
-                }
-            }
             if (((WorldRendererMixin)WorldPreview.worldRenderer).getWorld()!=null) {
                 BlockPos spawnPos = WorldPreview.player.getBlockPos();
                 Biome spawnBiome = WorldPreview.player.getEntityWorld().getBiome(spawnPos);
