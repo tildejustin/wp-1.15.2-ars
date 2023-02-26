@@ -21,6 +21,8 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.biome.BeachBiome;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.StructureFeature;
@@ -87,6 +89,15 @@ public abstract class LevelLoadingScreenMixin extends Screen {
                 }
             }
             if (((WorldRendererMixin)WorldPreview.worldRenderer).getWorld()!=null) {
+                BlockPos spawnPos = WorldPreview.player.getBlockPos();
+                Biome spawnBiome = WorldPreview.player.getEntityWorld().getBiome(spawnPos);
+                if (!(spawnBiome instanceof BeachBiome)) {
+                    WorldPreview.inPreview = true;
+                    WorldPreview.kill = -1;
+                    WorldPreview.log(Level.INFO,"Auto resetting because no beach");
+                    return;
+
+                }
                 KeyBinding.unpressAll();
                 WorldPreview.kill=0;
                 if(this.worldpreview_showMenu!= WorldPreview.showMenu){

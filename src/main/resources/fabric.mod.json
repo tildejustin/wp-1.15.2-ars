@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "worldpreview",
   "version": "${version}",
-  "name": "WorldPreview bt autoresetter",
+  "name": "WorldPreview beach autoresetter",
   "description": "Makes you reset block game fast",
   "authors": [
     "Void_X_Walker"
